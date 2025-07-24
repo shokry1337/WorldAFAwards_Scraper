@@ -9,12 +9,17 @@ headers = [
 def init():
     ids = []
     if os.path.exists(path):
-        with open(path, 'r', encoding='utf-8') as f:
-            reader = csv.reader(f)
-            next(reader, None)
-            for row in reader:
-                if row and row[0].isnumeric():
-                    ids.append(row[0])
+        if os.path.getsize(path) == 0:
+            with open(path, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.DictWriter(f, headers)
+                writer.writeheader()
+        else:
+            with open(path, 'r', encoding='utf-8') as f:
+                reader = csv.reader(f)
+                next(reader, None)
+                for row in reader:
+                    if row and row[0].isnumeric():
+                        ids.append(row[0])
         print(f"📂 Loaded '{path}'. Found {len(ids)} existing records. ")
     else:
         with open(path, 'w', newline='', encoding='utf-8') as f:

@@ -93,12 +93,12 @@ async def handle(ctx: PlaywrightCrawlingContext):
                 "Product": await get_text(ctx, "#productName"),
                 "Producer": await get_text(ctx, "#producerName"),
                 "Country": await get_text(ctx, "#countryName"),
-                "ABV": await get_text(ctx, "#abv"),
-                "Note": await get_text(ctx, "#note"),
+                "ABV": str(await get_text(ctx, "#abv")).replace("ABV ", ""),
+                "Note": str(await get_text(ctx, "#note")).replace("JUDGES' TASTING NOTE\n", ""),
                 "Categories": await get_text(ctx, "#categories"),
-                "Energy": await get_text(ctx, "#energy"), 
-                "Carbs": await get_text(ctx, "#carbs"),
-                "Sugars": await get_text(ctx, "#sugars"),
+                "Energy": str(await get_text(ctx, "#energy")).replace("Energy: ", ""), 
+                "Carbs": str(await get_text(ctx, "#carbs")).replace("Carbohydrates: ", ""),
+                "Sugars": str(await get_text(ctx, "#sugars")).replace("Sugars: ", ""),
                 "Website": website_href
             }
 
