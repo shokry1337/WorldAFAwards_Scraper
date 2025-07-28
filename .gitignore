@@ -1,5 +1,7 @@
 __pycache__/
 storage/
 venv/
+.gitignore
+backup.py
 saveload.bak
 scraper.bak

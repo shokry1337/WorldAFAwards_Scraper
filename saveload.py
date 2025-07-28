@@ -1,4 +1,8 @@
 import csv, os
+from datetime import datetime
+
+def log(*args, **kw):
+    print(f"{datetime.now().strftime('[%I:%M:%S %p]')}", *args, **kw)
 
 path = 'results.csv'
 headers = [
@@ -20,22 +24,21 @@ def init():
                 for row in reader:
                     if row and row[0].isnumeric():
                         ids.append(row[0])
-        print(f"📂 Loaded '{path}'. Found {len(ids)} existing records. ")
+        log(f"📂 Found {len(ids)} records in '{path}'.")
     else:
         with open(path, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, headers)
             writer.writeheader()
-        print(f"✨ Created a fresh '{path}' with headers. ")
+        log(f"✨ Created '{path}'.")
     return ids
-        
 
 def append(data: dict):
     try:
         with open(path, 'a', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, headers)
             writer.writerow(data)
-        print(f"✅ Data for ID '{data['ID']}' appended to '{path}'. ")
+        log(f"✅ ID {data['ID']} saved.")
     except IOError as e:
-        print(f"❌ Error writing data for ID '{data['ID']}' to '{path}': {e}. ")
+        log(f"❌ Write error for ID {data['ID']}: {e}")
     except csv.Error as e:
-        print(f"⚠️ CSV formatting issue encountered for ID '{data['ID']}' while writing to '{path}': {e}. ")
+        log(f"⚠️ CSV error for ID {data['ID']}: {e}")
